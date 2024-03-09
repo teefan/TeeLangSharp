@@ -5,7 +5,7 @@ namespace TeeLang;
 static class TeeLang
 {
     private static bool _hadError = false;
-    
+
     private static void Main(string[] args)
     {
         var argsLength = args.Length;

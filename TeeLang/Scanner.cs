@@ -44,9 +44,11 @@ internal class Scanner(string source)
         return _tokens;
     }
 
-    private void ScanToken() {
+    private void ScanToken()
+    {
         var c = Advance();
-        switch (c) {
+        switch (c)
+        {
             case '(':
                 AddToken(LeftParen);
                 break;
@@ -90,10 +92,13 @@ internal class Scanner(string source)
                 AddToken(Match('=') ? GreaterEqual : Greater);
                 break;
             case '/':
-                if (Match('/')) {
+                if (Match('/'))
+                {
                     // A comment goes until the end of the line.
                     while (Peek() != '\n' && !IsAtEnd()) Advance();
-                } else {
+                }
+                else
+                {
                     AddToken(Slash);
                 }
                 break;
@@ -141,7 +146,8 @@ internal class Scanner(string source)
         while (IsDigit(Peek())) Advance();
 
         // Look for a fractional part.
-        if (Peek() == '.' && IsDigit(PeekNext())) {
+        if (Peek() == '.' && IsDigit(PeekNext()))
+        {
             // Consume the "."
             Advance();
 
@@ -152,12 +158,14 @@ internal class Scanner(string source)
     }
 
     private void ProcessString() {
-        while (Peek() != '"' && !IsAtEnd()) {
+        while (Peek() != '"' && !IsAtEnd())
+        {
             if (Peek() == '\n') _line++;
             Advance();
         }
 
-        if (IsAtEnd()) {
+        if (IsAtEnd())
+        {
             TeeLang.Error(_line, "Unterminated string.");
             return;
         }
@@ -199,7 +207,8 @@ internal class Scanner(string source)
         return IsAlphabet(c) || IsDigit(c);
     }
 
-    private bool IsDigit(char c) {
+    private bool IsDigit(char c)
+    {
         return c is >= '0' and <= '9';
     }
 

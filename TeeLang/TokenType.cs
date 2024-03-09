@@ -1,6 +1,7 @@
 ﻿namespace TeeLang;
 
-enum TokenType {
+enum TokenType
+{
     // Single-character tokens.
     LeftParen, RightParen, LeftBrace, RightBrace,
     Comma, Dot, Minus, Plus, Semicolon, Slash, Star,
