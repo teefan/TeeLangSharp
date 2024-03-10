@@ -7,7 +7,7 @@ internal class Scanner(string source)
     private readonly string _source = source;
     private readonly List<Token> _tokens = [];
 
-    private static readonly Dictionary<string, TokenType?>? Keywords = new()
+    private static readonly Dictionary<string, TokenType> Keywords = new()
     {
         { "and", And },
         { "class", Class },
@@ -135,9 +135,8 @@ internal class Scanner(string source)
         while (IsAlphaNumeric(Peek())) Advance();
 
         var text = _source.Substring(_start, _current - _start);
-        TokenType? type = Identifier;
-        Keywords?.TryGetValue(text, out type);
-        type ??= Identifier;
+        var type = Keywords.GetValueOrDefault(text, Identifier);
+
         AddToken(type);
     }
 
@@ -217,7 +216,7 @@ internal class Scanner(string source)
         return _source[_current++];
     }
 
-    private void AddToken(TokenType? type, object? literal = null)
+    private void AddToken(TokenType type, object literal = null)
     {
         var text = _source.Substring(_start, _current - _start);
         _tokens.Add(new Token(type, text, literal, _line));

@@ -4,7 +4,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
         <Version>0.0.1</Version>
         <Title>TeeLang simple language</Title>
         <Authors>Long &lt;Teefan&gt; Tran</Authors>

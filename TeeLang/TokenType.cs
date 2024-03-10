@@ -1,6 +1,6 @@
 ﻿namespace TeeLang;
 
-enum TokenType
+internal enum TokenType
 {
     // Single-character tokens.
     LeftParen, RightParen, LeftBrace, RightBrace,
