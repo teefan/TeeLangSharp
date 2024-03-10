@@ -5,6 +5,8 @@ namespace Tool;
 
 public class GenerateAst
 {
+    private static readonly TextInfo TextInfo = CultureInfo.CurrentCulture.TextInfo;
+
     public static void Main(string[] args)
     {
         var argsLength = args.Length;
@@ -35,6 +37,9 @@ public class GenerateAst
             "{"
         ]);
 
+        DefineVisitor(fileContent, baseName, types);
+
+        // The AST classes.
         foreach (var type in types)
         {
             var className = type.Split(":")[0].Trim();
@@ -42,12 +47,37 @@ public class GenerateAst
             DefineType(fileContent, baseName, className, fields);
         }
 
+        // The base accept() method.
+        fileContent.AddRange([
+            "",
+            "    public abstract TR Accept<TR>(IVisitor<TR> visitor);"
+        ]);
+
         fileContent.AddRange([
             "}",
             ""
         ]);
 
         File.WriteAllText(path, string.Join("\n", fileContent.ToArray()), Encoding.Default);
+    }
+
+    private static void DefineVisitor(List<string> fileContent, string baseName, List<string> types)
+    {
+        fileContent.AddRange([
+            "    public interface IVisitor<out T>",
+            "    {"
+        ]);
+
+        foreach (var type in types)
+        {
+            var typeName = type.Split(" ")[0].Trim();
+            fileContent.Add($"        public T Visit{typeName}{baseName}({typeName} {TextInfo.ToLower(baseName)});");
+        }
+
+        fileContent.AddRange([
+            "    }",
+            ""
+        ]);
     }
 
     private static void DefineType(List<string> fileContent, string baseName, string className, string fieldList)
@@ -65,9 +95,18 @@ public class GenerateAst
         {
             var type = field.Split(" ")[0];
             var name = field.Split(" ")[1];
-            var nameTitleCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
+            var nameTitleCase = TextInfo.ToTitleCase(name);
             fileContent.Add($"        public {type} {nameTitleCase} {{ get; }} = {name};");
         }
+
+        // Visitor pattern.
+        fileContent.AddRange([
+            "",
+            "        public override TR Accept<TR>(IVisitor<TR> visitor)",
+            "        {",
+            $"            return visitor.Visit{className}{baseName}(this);",
+            "        }"
+        ]);
 
         fileContent.Add("    }");
     }
