@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeeLang", "TeeLang\TeeLang.csproj", "{C6B5B08C-3857-430D-B633-F9CA567EC7F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool", "Tool\Tool.csproj", "{A28F1E21-1B02-4CCB-BE8B-1BEFFB9F3E5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{C6B5B08C-3857-430D-B633-F9CA567EC7F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6B5B08C-3857-430D-B633-F9CA567EC7F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6B5B08C-3857-430D-B633-F9CA567EC7F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A28F1E21-1B02-4CCB-BE8B-1BEFFB9F3E5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A28F1E21-1B02-4CCB-BE8B-1BEFFB9F3E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A28F1E21-1B02-4CCB-BE8B-1BEFFB9F3E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A28F1E21-1B02-4CCB-BE8B-1BEFFB9F3E5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
