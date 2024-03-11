@@ -4,7 +4,7 @@ namespace TeeLang;
 
 static class TeeLang
 {
-    private static bool _hadError = false;
+    private static bool _hadError;
 
     private static void Main(string[] args)
     {
@@ -49,6 +49,13 @@ static class TeeLang
     {
         var scanner = new Scanner(source);
         var tokens = scanner.ScanTokens();
+        var parser = new Parser(tokens);
+        var expression = parser.Parse();
+
+        // Stop if there was a syntax error.
+        if (_hadError) return;
+
+        Console.WriteLine(new AstPrinter().Print(expression));
 
         foreach (var token in tokens)
         {
@@ -65,5 +72,10 @@ static class TeeLang
     {
         Console.Error.WriteLine($"[Line {line}] Error: {where}: {message}");
         _hadError = true;
+    }
+
+    public static void Error(Token token, string message)
+    {
+        Report(token.Line, token.Type == TokenType.Eof ? " at end" : $" at '{token.Lexeme}'", message);
     }
 }

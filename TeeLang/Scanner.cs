@@ -4,7 +4,6 @@ using static TokenType;
 
 internal class Scanner(string source)
 {
-    private readonly string _source = source;
     private readonly List<Token> _tokens = [];
 
     private static readonly Dictionary<string, TokenType> Keywords = new()
@@ -134,7 +133,7 @@ internal class Scanner(string source)
     {
         while (IsAlphaNumeric(Peek())) Advance();
 
-        var text = _source.Substring(_start, _current - _start);
+        var text = source.Substring(_start, _current - _start);
         var type = Keywords.GetValueOrDefault(text, Identifier);
 
         AddToken(type);
@@ -153,7 +152,7 @@ internal class Scanner(string source)
             while (IsDigit(Peek())) Advance();
         }
 
-        AddToken(Number, Convert.ToDouble(_source.Substring(_start, _current - _start)));
+        AddToken(Number, Convert.ToDouble(source.Substring(_start, _current - _start)));
     }
 
     private void ProcessString() {
@@ -173,14 +172,14 @@ internal class Scanner(string source)
         Advance();
 
         // Trim the surrounding quotes.
-        var value = _source.Substring(_start + 1, (_current - (_start + 1)) - 1);
+        var value = source.Substring(_start + 1, (_current - (_start + 1)) - 1);
         AddToken(String, value);
     }
 
     private bool Match(char expected)
     {
         if (IsAtEnd()) return false;
-        if (_source[_current] != expected) return false;
+        if (source[_current] != expected) return false;
 
         _current++;
         return true;
@@ -188,12 +187,12 @@ internal class Scanner(string source)
 
     private char Peek()
     {
-        return IsAtEnd() ? '\0' : _source[_current];
+        return IsAtEnd() ? '\0' : source[_current];
     }
 
     private char PeekNext()
     {
-        return _current + 1 >= _source.Length ? '\0' : _source[_current + 1];
+        return _current + 1 >= source.Length ? '\0' : source[_current + 1];
     }
 
     private bool IsAlphabet(char c)
@@ -213,17 +212,17 @@ internal class Scanner(string source)
 
     private char Advance()
     {
-        return _source[_current++];
+        return source[_current++];
     }
 
     private void AddToken(TokenType type, object literal = null)
     {
-        var text = _source.Substring(_start, _current - _start);
+        var text = source.Substring(_start, _current - _start);
         _tokens.Add(new Token(type, text, literal, _line));
     }
 
     private bool IsAtEnd()
     {
-        return _current >= _source.Length;
+        return _current >= source.Length;
     }
 }
