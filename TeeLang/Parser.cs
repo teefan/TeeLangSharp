@@ -14,7 +14,7 @@ public class Parser(IReadOnlyList<Token> tokens)
         {
             return Expression();
         }
-        catch (ParseError error)
+        catch // (ParseError error)
         {
             return null;
         }
