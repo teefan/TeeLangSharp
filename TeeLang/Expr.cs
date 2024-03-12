@@ -1,6 +1,6 @@
 namespace TeeLang;
 
-abstract class Expr
+public abstract class Expr
 {
     public interface IVisitor<out T>
     {

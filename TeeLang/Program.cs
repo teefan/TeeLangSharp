@@ -2,7 +2,7 @@
 
 namespace TeeLang;
 
-static class TeeLang
+public static class TeeLang
 {
     private static bool _hadError;
 

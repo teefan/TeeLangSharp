@@ -2,7 +2,7 @@
 
 using static TokenType;
 
-internal class Parser(List<Token> tokens)
+public class Parser(IReadOnlyList<Token> tokens)
 {
     private class ParseError : Exception;
 

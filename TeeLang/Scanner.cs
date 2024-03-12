@@ -2,7 +2,7 @@
 
 using static TokenType;
 
-internal class Scanner(string source)
+public class Scanner(string source)
 {
     private readonly List<Token> _tokens = [];
 

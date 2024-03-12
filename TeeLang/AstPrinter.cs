@@ -2,7 +2,7 @@
 
 namespace TeeLang;
 
-internal class AstPrinter : Expr.IVisitor<string>
+public class AstPrinter : Expr.IVisitor<string>
 {
     public string Print(Expr expr)
     {

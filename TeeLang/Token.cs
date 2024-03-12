@@ -1,6 +1,6 @@
 ﻿namespace TeeLang;
 
-internal class Token(TokenType type, string lexeme, object literal, int line)
+public class Token(TokenType type, string lexeme, object literal, int line)
 {
     public readonly TokenType Type = type;
     public readonly string Lexeme = lexeme;
