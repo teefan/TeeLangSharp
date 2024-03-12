@@ -4,7 +4,9 @@ namespace TeeLang;
 
 public static class TeeLang
 {
+    private static readonly Interpreter Interpreter = new Interpreter();
     private static bool _hadError;
+    private static bool _hadRuntimeError;
 
     private static void Main(string[] args)
     {
@@ -31,6 +33,7 @@ public static class TeeLang
         
         // Indicate an error in the exit code.
         if (_hadError) Environment.Exit(65);
+        if (_hadRuntimeError) Environment.Exit(70);
     }
 
     private static void RunPrompt()
@@ -55,17 +58,18 @@ public static class TeeLang
         // Stop if there was a syntax error.
         if (_hadError) return;
 
-        Console.WriteLine(new AstPrinter().Print(expression));
-
-        foreach (var token in tokens)
-        {
-            Console.WriteLine(token);
-        }
+        Interpreter.Interpret(expression);
     }
 
     public static void Error(int line, string message)
     {
         Report(line, "", message);
+    }
+
+    public static void RuntimeError(RuntimeError error)
+    {
+        Console.Error.WriteLine($"{error.Message}\n[Line {error.Token.Line}]");
+        _hadRuntimeError = true;
     }
 
     private static void Report(int line, string where, string message)
