@@ -8,21 +8,41 @@ public class Parser(IReadOnlyList<Token> tokens)
 
     private int _current;
 
-    public Expr Parse()
+    public List<Stmt> Parse()
     {
-        try
+        var statements = new List<Stmt>();
+        while (!IsAtEnd())
         {
-            return Expression();
+            statements.Add(Statement());
         }
-        catch // (ParseError error)
-        {
-            return null;
-        }
+
+        return statements;
     }
 
     private Expr Expression()
     {
         return Equality();
+    }
+
+    private Stmt Statement()
+    {
+        if (Match(Print)) return PrintStatement();
+
+        return ExpressionStatement();
+    }
+
+    private Stmt PrintStatement()
+    {
+        var value = Expression();
+        Consume(Semicolon, "Expect ';' after value.");
+        return new Stmt.Print(value);
+    }
+
+    private Stmt ExpressionStatement()
+    {
+        var expr = Expression();
+        Consume(Semicolon, "Expect ';' after expression.");
+        return new Stmt.Expression(expr);
     }
 
     private Expr Equality()

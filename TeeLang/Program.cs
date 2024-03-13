@@ -53,12 +53,12 @@ public static class TeeLang
         var scanner = new Scanner(source);
         var tokens = scanner.ScanTokens();
         var parser = new Parser(tokens);
-        var expression = parser.Parse();
+        var statements = parser.Parse();
 
         // Stop if there was a syntax error.
         if (_hadError) return;
 
-        Interpreter.Interpret(expression);
+        Interpreter.Interpret(statements);
     }
 
     public static void Error(int line, string message)
