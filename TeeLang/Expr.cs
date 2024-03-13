@@ -8,6 +8,7 @@ public abstract class Expr
         public T VisitGroupingExpr(Grouping expr);
         public T VisitLiteralExpr(Literal expr);
         public T VisitUnaryExpr(Unary expr);
+        public T VisitVariableExpr(Variable expr);
     }
 
     public class Binary(Expr left, Token op, Expr right) : Expr
@@ -21,9 +22,9 @@ public abstract class Expr
             return visitor.VisitBinaryExpr(this);
         }
     }
-    public class Grouping(Expr expression) : Expr
+    public class Grouping(Expr expr) : Expr
     {
-        public Expr Expression { get; } = expression;
+        public Expr Expr { get; } = expr;
 
         public override TR Accept<TR>(IVisitor<TR> visitor)
         {
@@ -47,6 +48,15 @@ public abstract class Expr
         public override TR Accept<TR>(IVisitor<TR> visitor)
         {
             return visitor.VisitUnaryExpr(this);
+        }
+    }
+    public class Variable(Token name) : Expr
+    {
+        public Token Name { get; } = name;
+
+        public override TR Accept<TR>(IVisitor<TR> visitor)
+        {
+            return visitor.VisitVariableExpr(this);
         }
     }
 

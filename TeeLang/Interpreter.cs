@@ -71,7 +71,7 @@ public class Interpreter : Expr.IVisitor<object>, Stmt.IVisitor<object>
 
     public object VisitGroupingExpr(Expr.Grouping expr)
     {
-        return Evaluate(expr.Expression);
+        return Evaluate(expr.Expr);
     }
 
     public object VisitLiteralExpr(Expr.Literal expr)
@@ -93,6 +93,11 @@ public class Interpreter : Expr.IVisitor<object>, Stmt.IVisitor<object>
 
         // Unreachable.
         return null;
+    }
+
+    public object VisitVariableExpr(Expr.Variable expr)
+    {
+        throw new NotImplementedException();
     }
 
     private void CheckNumberOperand(Token op, object operand)
@@ -163,5 +168,10 @@ public class Interpreter : Expr.IVisitor<object>, Stmt.IVisitor<object>
         var value = Evaluate(stmt.Expr);
         Console.WriteLine(Stringify(value));
         return null;
+    }
+
+    public object VisitVarStmt(Stmt.Var stmt)
+    {
+        throw new NotImplementedException();
     }
 }

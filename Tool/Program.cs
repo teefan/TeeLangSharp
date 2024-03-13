@@ -19,14 +19,16 @@ public class GenerateAst
         var outputDir = args[0];
         DefineAst(outputDir, "Expr", [
             "Binary   : Expr left, Token op, Expr right",
-            "Grouping : Expr expression",
+            "Grouping : Expr expr",
             "Literal  : object value",
-            "Unary    : Token op, Expr right"
+            "Unary    : Token op, Expr right",
+            "Variable : Token name"
         ]);
 
         DefineAst(outputDir, "Stmt", [
-            "Expression : Expr expression",
-            "Print      : Expr expression"
+            "Expression : Expr expr",
+            "Print      : Expr expr",
+            "Var        : Token name, Expr initializer"
         ]);
     }
 
@@ -38,7 +40,7 @@ public class GenerateAst
         fileContent.AddRange([
             "namespace TeeLang;",
             "",
-            $"abstract class {baseName}",
+            $"public abstract class {baseName}",
             "{"
         ]);
 

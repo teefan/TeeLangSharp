@@ -16,7 +16,7 @@ public class AstPrinter : Expr.IVisitor<string>
 
     public string VisitGroupingExpr(Expr.Grouping expr)
     {
-        return Parenthesize("group", expr.Expression);
+        return Parenthesize("group", expr.Expr);
     }
 
     public string VisitLiteralExpr(Expr.Literal expr)
@@ -27,6 +27,11 @@ public class AstPrinter : Expr.IVisitor<string>
     public string VisitUnaryExpr(Expr.Unary expr)
     {
         return Parenthesize(expr.Op.Lexeme, expr.Right);
+    }
+
+    public string VisitVariableExpr(Expr.Variable expr)
+    {
+        throw new NotImplementedException();
     }
 
     private string Parenthesize(string name, params Expr[] exprs)
