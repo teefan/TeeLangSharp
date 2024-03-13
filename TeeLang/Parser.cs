@@ -13,7 +13,7 @@ public class Parser(IReadOnlyList<Token> tokens)
         var statements = new List<Stmt>();
         while (!IsAtEnd())
         {
-            statements.Add(Statement());
+            statements.Add(Declaration());
         }
 
         return statements;
@@ -22,6 +22,21 @@ public class Parser(IReadOnlyList<Token> tokens)
     private Expr Expression()
     {
         return Equality();
+    }
+
+    private Stmt Declaration()
+    {
+        try
+        {
+            if (Match(Var)) return VarDeclaration();
+
+            return Statement();
+        }
+        catch (ParseError error)
+        {
+            Synchronize();
+            return null;
+        }
     }
 
     private Stmt Statement()
@@ -36,6 +51,20 @@ public class Parser(IReadOnlyList<Token> tokens)
         var value = Expression();
         Consume(Semicolon, "Expect ';' after value.");
         return new Stmt.Print(value);
+    }
+
+    private Stmt VarDeclaration()
+    {
+        var name = Consume(Identifier, "Expect variable name.");
+
+        Expr initializer = null;
+        if (Match(Equal))
+        {
+            initializer = Expression();
+        }
+
+        Consume(Semicolon, "Expect ';' after variable declaration.");
+        return new Stmt.Var(name, initializer);
     }
 
     private Stmt ExpressionStatement()
@@ -122,6 +151,11 @@ public class Parser(IReadOnlyList<Token> tokens)
         if (Match(Number, String))
         {
             return new Expr.Literal(Previous().Literal);
+        }
+
+        if (Match(Identifier))
+        {
+            return new Expr.Variable(Previous());
         }
 
         if (Match(LeftParen))
