@@ -4,6 +4,8 @@ using static TokenType;
 
 public class Interpreter : Expr.IVisitor<object>, Stmt.IVisitor<object>
 {
+    private Env _env = new();
+
     public void Interpret(List<Stmt> statements)
     {
         try
@@ -97,7 +99,7 @@ public class Interpreter : Expr.IVisitor<object>, Stmt.IVisitor<object>
 
     public object VisitVariableExpr(Expr.Variable expr)
     {
-        throw new NotImplementedException();
+        return _env.Get(expr.Name);
     }
 
     private void CheckNumberOperand(Token op, object operand)
@@ -172,6 +174,13 @@ public class Interpreter : Expr.IVisitor<object>, Stmt.IVisitor<object>
 
     public object VisitVarStmt(Stmt.Var stmt)
     {
-        throw new NotImplementedException();
+        object value = null;
+        if (stmt.Initializer != null)
+        {
+            value = Evaluate(stmt.Initializer);
+        }
+
+        _env.Define(stmt.Name.Lexeme, value);
+        return null;
     }
 }
